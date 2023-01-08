@@ -8,11 +8,18 @@
     "type": "git",
     "url": "git+https://github.com/nmsn/code-generator.git"
   },
-  "keywords": ["code-generator", "node", "template"],
+  "keywords": [
+    "code-generator",
+    "node",
+    "template"
+  ],
   "author": "nmsn <136696700@qq.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/nmsn/code-generator/issues"
   },
-  "homepage": "https://github.com/nmsn/code-generator#readme"
+  "homepage": "https://github.com/nmsn/code-generator#readme",
+  "dependencies": {
+    "inquirer": "^9.1.4"
+  }
 }
