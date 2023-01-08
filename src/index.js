@@ -1,11 +1,16 @@
 import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import inquirer from "inquirer";
 import { removeMultipleStrLeadingSpace } from "./util.js";
 
-const BASE_PATH = "./src/template";
-const IMPORT_PATH = "./template";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const getTemplateName = async (path = BASE_PATH) => {
+const AP = path.join(__dirname, "template");
+const RP = "./template";
+
+const getTemplateName = async (path) => {
   const files = fs.readdirSync(path);
   return files;
 };
@@ -20,12 +25,11 @@ const selectTemplate = async (fileNames) => {
     },
   ]);
 
-  console.log(result);
   return result;
 };
 
 const asyncImport = async (filename = "template.js", template) => {
-  const { default: getTemplate } = await import(`${IMPORT_PATH}/${template}`);
+  const { default: getTemplate } = await import(`${RP}/${template}`);
 
   fs.writeFileSync(
     `./${filename}`,
@@ -34,9 +38,21 @@ const asyncImport = async (filename = "template.js", template) => {
 };
 
 const cli = async () => {
-  const files = await getTemplateName();
+  const files = await getTemplateName(AP);
   const { template } = await selectTemplate(files);
   asyncImport(undefined, template);
 };
 
-cli();
+const AP2 = path.join(__dirname, "source");
+
+const copyImport = async (filename = "template.js", template) => {
+  fs.copyFileSync(`${AP2}/${template}`, `./${filename}`);
+};
+
+const cli2 = async () => {
+  const files = await getTemplateName(AP2);
+  const { template } = await selectTemplate(files);
+  copyImport(undefined, template);
+};
+
+cli2();
