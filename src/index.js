@@ -2,7 +2,11 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import inquirer from "inquirer";
-import { removeMultipleStrLeadingSpace } from "./util.js";
+import {
+  removeMultipleStrLeadingSpace,
+  getTemplateName,
+  selectTemplate,
+} from "./util.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,24 +15,6 @@ const __dirname = path.dirname(__filename);
 
 const AP = path.join(__dirname, "function");
 const RP = "./function";
-
-const getTemplateName = async (path) => {
-  const files = fs.readdirSync(path);
-  return files;
-};
-
-const selectTemplate = async (fileNames) => {
-  const result = await inquirer.prompt([
-    {
-      type: "list",
-      name: "template",
-      message: "Select the template of code",
-      choices: fileNames.map((item) => ({ value: item, name: item })),
-    },
-  ]);
-
-  return result;
-};
 
 const asyncImport = async (filename = "template.js", template) => {
   const { default: getTemplate } = await import(`${RP}/${template}`);
