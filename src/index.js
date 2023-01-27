@@ -7,8 +7,10 @@ import { removeMultipleStrLeadingSpace } from "./util.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const AP = path.join(__dirname, "template");
-const RP = "./template";
+/* --- function --- */
+
+const AP = path.join(__dirname, "function");
+const RP = "./function";
 
 const getTemplateName = async (path) => {
   const files = fs.readdirSync(path);
@@ -43,6 +45,8 @@ const cli = async () => {
   asyncImport(undefined, template);
 };
 
+/* --- copy --- */
+
 const AP2 = path.join(__dirname, "source");
 
 const copyImport = async (filename = "template.js", template) => {
@@ -55,4 +59,4 @@ const cli2 = async () => {
   copyImport(undefined, template);
 };
 
-cli2();
+/* --- mustache --- */
