@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/nmsn/code-generator#readme",
   "dependencies": {
-    "inquirer": "^9.1.4"
+    "inquirer": "^9.1.4",
+    "mustache": "^4.2.0"
   }
 }

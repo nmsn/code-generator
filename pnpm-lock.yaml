@@ -2,9 +2,11 @@ lockfileVersion: 5.4
 
 specifiers:
   inquirer: ^9.1.4
+  mustache: ^4.2.0
 
 dependencies:
   inquirer: 9.1.4
+  mustache: 4.2.0
 
 packages:
 
@@ -172,6 +174,11 @@ packages:
   /mimic-fn/2.1.0:
     resolution: {integrity: sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==}
     engines: {node: '>=6'}
+    dev: false
+
+  /mustache/4.2.0:
+    resolution: {integrity: sha512-71ippSywq5Yb7/tVYyGbkBggbU8H3u5Rz56fH60jGFgr8uHwxs+aSKeqmluIVzM0m0kB7xQjKS6qPfd0b2ZoqQ==}
+    hasBin: true
     dev: false
 
   /mute-stream/0.0.8:

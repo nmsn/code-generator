@@ -1,3 +1,6 @@
+import fs from "fs";
+import inquirer from 'inquirer';
+
 export const removeMultipleStrLeadingSpace = (
   strTemplate,
   keepBlankRow = true
