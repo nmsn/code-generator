@@ -1,0 +1,10 @@
+import { Drawer } from "antd";
+import { useState } from 'react';
+
+const ADrawer = () => {
+  
+  const [Cstate, setCState] = useState([]);
+  return <ADrawer>drawer</ADrawer>;
+};
+
+export default ADrawer;
