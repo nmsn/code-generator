@@ -1,18 +1,5 @@
 import fs from "fs";
-import inquirer from 'inquirer';
-
-export const removeMultipleStrLeadingSpace = (
-  strTemplate,
-  keepBlankRow = true
-) => {
-  if (!strTemplate) {
-    return "";
-  }
-  if (keepBlankRow) {
-    return strTemplate.replace(/^[^\S\n]+/gm, "");
-  }
-  return strTemplate.replace(/^\s+/gm, "");
-};
+import inquirer from "inquirer";
 
 export const getTemplateName = async (path) => {
   const files = fs.readdirSync(path);
