@@ -1,40 +1,39 @@
 import fs from "fs";
 import path from "path";
+import process from "process";
 import { fileURLToPath } from "url";
 import mustache from "mustache";
-import { getTemplateName, selectTemplate } from "./util.js";
+import {
+  getTemplateName,
+  selectTemplate,
+  editTemplate,
+  getOutputName,
+} from "./util.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const __curDir = process.cwd();
 
-/* --- mustache --- */
+const tplDir = path.join(__dirname, "template");
 
-const AP3 = path.join(__dirname, "template");
-const RP3 = "./template";
-
-const asyncImport2 = async (filename = "template.js", template) => {
-  // const { default: getTemplate } = await import(`${RP3}/${template}`);
-  const tpl = fs.readFileSync(`${AP3}/${template}`, "utf-8");
-  console.log(tpl);
-
-  const paramArr = tpl.match(/(?<=\{\{\{)(\S+?)(?=\}\}\})/gm);
-
-  const validParams = [...new Set(paramArr)];
-
-  const output = mustache.render(tpl, { name: "a" });
-
-  console.log(output, validParams);
-
-  // fs.writeFileSync(
-  //   `./${filename}`,
-  //   removeMultipleStrLeadingSpace(getTemplate())
-  // );
+const getOutput = async (template) => {
+  const tpl = fs.readFileSync(`${tplDir}/${template}`, "utf-8");
+  const slots = tpl.match(/(?<=\{\{\{)(\S+?)(?=\}\}\})/gm);
+  const result = await editTemplate([...new Set(slots)]);
+  const output = mustache.render(tpl, result);
+  return output;
 };
 
-const cli3 = async () => {
-  const files = await getTemplateName(AP3);
+const saveFile = (filename, output) => {
+  fs.writeFileSync(`${__curDir}/${filename}`, output);
+};
+
+const cli = async () => {
+  const files = await getTemplateName(tplDir);
   const { template } = await selectTemplate(files);
-  asyncImport2(undefined, template);
+  const output = await getOutput(template);
+  const fileName = await getOutputName();
+  saveFile(fileName, output);
 };
 
-cli3();
+cli();
