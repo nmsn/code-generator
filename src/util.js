@@ -7,10 +7,14 @@ const __curDir = process.cwd();
 
 export const editTemplate = async (names) => {
   const result = await inquirer.prompt(
-    names.map((item) => ({
+    names.map(([name, defaultVal]) => ({
       type: "input",
-      name: item,
-      message: `Input variable ${item}:`,
+      name: name,
+      message: `Input variable ${name}:`,
+      validate: (input) => {
+        return !!(typeof input === "string" && input.length);
+      },
+      default: defaultVal ?? undefined,
     }))
   );
 
@@ -31,8 +35,13 @@ export const getTpl = async (path) => {
 
   const tpl = fs.readFileSync(`${path}/${sourceTpl}`, "utf-8");
   const slots = tpl.match(/(?<=\{\{\{)(\S+?)(?=\}\}\})/gm);
-  const result = await editTemplate([...new Set(slots)]);
-  const output = mustache.render(tpl, result);
+
+  // 使用 ':' 对属性增加默认值
+  const validSlots = await editTemplate(
+    [...new Set(slots)].map((item) => item.split(":"))
+  );
+
+  const output = mustache.render(tpl, validSlots);
   return output;
 };
 
@@ -41,6 +50,13 @@ export const getOutputFileName = async () => {
     type: "input",
     name: "name",
     message: `Input output file name:`,
+    validate: (input) => {
+      console.log(input);
+      return !!(typeof input === "string" && input.length);
+    },
+
+    // TODO 默认文件名是否需要使用模版的名称
+    default: "index.tsx",
   });
 
   return name;
