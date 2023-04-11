@@ -17,7 +17,6 @@ export const editTemplate = async (names) => {
       default: defaultVal ?? undefined,
     }))
   );
-
   return result;
 };
 
@@ -40,8 +39,11 @@ export const getTpl = async (path) => {
   const validSlots = await editTemplate(
     [...new Set(slots)].map((item) => item.split(":"))
   );
-
-  const output = mustache.render(tpl, validSlots);
+  console.log(tpl.replace(/\:(\S+?)(?=\}\}\})/g, ""));
+  const output = mustache.render(
+    tpl.replace(/\:(\S+?)(?=\}\}\})/g, ""),
+    validSlots
+  );
   return output;
 };
 
@@ -51,7 +53,6 @@ export const getOutputFileName = async () => {
     name: "name",
     message: `Input output file name:`,
     validate: (input) => {
-      console.log(input);
       return !!(typeof input === "string" && input.length);
     },
 

@@ -1,3 +1,3 @@
-export const columns = [];
+export const columns = [{{{a:b}}}];
 
 export const searchNode = [];
