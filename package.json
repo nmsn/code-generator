@@ -1,12 +1,12 @@
 {
   "name": "code-generator",
   "version": "0.0.1",
-  "description": "",
+  "description": "Generate code from the template.",
   "type": "module",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nmsn/code-generator.git"
+    "url": "https://github.com/nmsn/code-generator.git"
   },
   "keywords": [
     "code-generator",
