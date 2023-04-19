@@ -39,7 +39,6 @@ export const getTpl = async (path) => {
   const validSlots = await editTemplate(
     [...new Set(slots)].map((item) => item.split(":"))
   );
-  console.log(tpl.replace(/\:(\S+?)(?=\}\}\})/g, ""));
   const output = mustache.render(
     tpl.replace(/\:(\S+?)(?=\}\}\})/g, ""),
     validSlots

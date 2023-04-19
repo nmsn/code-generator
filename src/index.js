@@ -1,5 +1,4 @@
 import path from "path";
-import process from "process";
 import { fileURLToPath } from "url";
 
 import { getOutputFileName, getTpl, saveFile } from "./util.js";
