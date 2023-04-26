@@ -1,5 +1,6 @@
 import fs from "fs";
 import inquirer from "inquirer";
+·// TODO 替换 mustache
 import mustache from "mustache";
 import process from "process";
 
@@ -35,10 +36,12 @@ export const getTpl = async (path) => {
   const tpl = fs.readFileSync(`${path}/${sourceTpl}`, "utf-8");
   const slots = tpl.match(/(?<=\{\{\{)(\S+?)(?=\}\}\})/gm);
 
+  // 去重并获取初始值
+  const filterSlots = [...new Set(slots)].map((item) => item.split(":"));
   // 使用 ':' 对属性增加默认值
-  const validSlots = await editTemplate(
-    [...new Set(slots)].map((item) => item.split(":"))
-  );
+  const validSlots = await editTemplate(filterSlots);
+
+  // TODO 当前识别大小写变量为不同变量，需整合视为同一变量，然后赋值后分别赋值为小写变量和大写开头变量（需考虑存在初始值的情况）
   const output = mustache.render(
     tpl.replace(/\:(\S+?)(?=\}\}\})/g, ""),
     validSlots
