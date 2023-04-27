@@ -1,4 +1,5 @@
 import fs from "fs";
+import chalk from "chalk";
 import inquirer from "inquirer";
 // TODO 替换 mustache
 import mustache from "mustache";
@@ -6,14 +7,42 @@ import process from "process";
 
 const __curDir = process.cwd();
 
+const colorSubText = (text) => {
+  return chalk.dim.cyan(text);
+};
+
 export const editTemplate = async (names) => {
   const params = await inquirer.prompt(
-    names.map(({ name, defaultVal }) => ({
+    names.map(({ name, defaultVal, hasTwo }) => ({
       type: "input",
       name: name,
       message: `Input variable ${name}:`,
       validate: (input) => {
-        return !!(typeof input === "string" && input.length);
+        if (!typeof input === "string" || !input.length) {
+          return `Please input valid param value.${colorSubText(
+            "(请输入有效参数)"
+          )}`;
+        }
+
+        if (hasTwo && isFirstUpperCase(input)) {
+          return `Please use lower case param.${colorSubText(
+            "(请使用小写字母开头的参数)"
+          )}`;
+        }
+
+        if (isFirstUpperCase(input) && !isFirstUpperCase(name)) {
+          return `Please use lower case param.${colorSubText(
+            "(请使用小写字母开头的参数)"
+          )}`;
+        }
+
+        if (!isFirstUpperCase(input) && isFirstUpperCase(name)) {
+          return `Please upper case param.${colorSubText(
+            "(请使用大写字母开头的参数)"
+          )}`;
+        }
+
+        return true;
       },
       default: defaultVal ?? undefined,
     }))
