@@ -23,5 +23,9 @@
     "chalk": "^5.2.0",
     "inquirer": "^9.1.4",
     "mustache": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.3",
+    "@types/node": "^20.1.1"
   }
 }

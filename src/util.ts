@@ -7,18 +7,24 @@ import process from "process";
 
 const __curDir = process.cwd();
 
-const colorSubText = (text) => {
+const colorSubText = (text: string) => {
   return chalk.dim.cyan(text);
 };
 
-export const editTemplate = async (names) => {
+type NameType = {
+  name: string;
+  defaultVal: string;
+  hasTwo?: boolean;
+};
+
+export const editTemplate = async (names: NameType[]) => {
   const params = await inquirer.prompt(
     names.map(({ name, defaultVal, hasTwo }) => ({
       type: "input",
       name: name,
       message: `Input variable ${name}:`,
       validate: (input) => {
-        if (!typeof input === "string" || !input.length) {
+        if (typeof input === "string" && !input.length) {
           return `Please input valid param value.${colorSubText(
             "(请输入有效参数)"
           )}`;
@@ -65,7 +71,7 @@ export const editTemplate = async (names) => {
   return result;
 };
 
-export const getTpl = async (path) => {
+export const getTpl = async (path: string) => {
   const files = fs.readdirSync(path);
 
   const { template: sourceTpl } = await inquirer.prompt([
@@ -93,7 +99,7 @@ export const getTpl = async (path) => {
     };
   });
 
-  const slotsMap = new Map([]);
+  const slotsMap = new Map<string, NameType>([]);
 
   filterSlots.forEach((item) => {
     if (
@@ -142,19 +148,19 @@ export const getOutputFileName = async () => {
   return name;
 };
 
-export const saveFile = (filename, output) => {
+export const saveFile = (filename: string, output: string) => {
   fs.writeFileSync(`${__curDir}/${filename}`, output);
 };
 
-const isFirstUpperCase = (str) => {
+const isFirstUpperCase = (str: string) => {
   const pattern = /^[A-Z]/;
   return pattern.test(str);
 };
 
-const toFirstUpperCase = (str) => {
+const toFirstUpperCase = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-const toFirstLowerCase = (str) => {
+const toFirstLowerCase = (str: string) => {
   return str.charAt(0).toLowerCase() + str.slice(1);
 };
